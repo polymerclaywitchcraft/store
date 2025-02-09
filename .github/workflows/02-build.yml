@@ -63,7 +63,7 @@ jobs:
 
       - name: Build
         run: |
-          npm run build
+          npm run nx:build
 
   # resolve_comments:
   #   needs: [lint-build]

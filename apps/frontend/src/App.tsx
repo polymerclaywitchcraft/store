@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Skull, ShoppingCart, Search, Menu, Heart, Clock, Truck, Shield, Star, X, Plus, Minus, ArrowLeft } from 'lucide-react';
+import { toast, ToastContainer } from 'react-toastify';
 
 interface Product {
   id: number;
@@ -55,16 +56,27 @@ const products = [
 const categories = [
   {
     name: "Victorian Era",
+    title: "Кастомные заказы",
     image: "https://images.unsplash.com/photo-1518997613208-3a8c04ad1324?auto=format&fit=crop&q=80&w=500",
+    description: "Дорогие друзья, я готова поработать над вашими идеями и заказами. Так как я забочусь о том, чтобы у каждого из вас было свое уникальное изделие, я никогда не делаю точных повторов. Но мы всегда может сделать что-то уникальное для вас по мотивам моих прошлых работ или же воплотить именно вашу идею."
   },
   {
     name: "Modern Gothic",
+    title: "Как заказать",
     image: "https://images.unsplash.com/photo-1582533561751-ef6f6ab93a2e?auto=format&fit=crop&q=80&w=500",
+    description: "1. Напишите мне в директ в инстаграм свою свои пожелания или по мотивам какой моей работы вы хотели бы чтобы я создала изделие " + 
+ "2. Мы обговариваем с вами детали и дизайн " +
+ "3. Чтобы я могла поставить вам в очередь на изготовление, я обычно беру предоплат 40%. Оплатить можно будет через пэй пал" +
+ "4. Я ставлю вас в очередь и говорю через сколько приступлю к заказу и когда он будет готов. Будьте готовы, что нужно будет подождать, так как я очень тщательно работаю над изделиями и к сожалению не могу обещать вам очень быстрых сроков если очередь длинная." +
+ "5. Как только я изготавливаю заказ полностью и высылаю вам фото, вы переводите остаток суммы оплаты на мой пэйпал" +
+ "6. Далее осуществляется доставка как описано в разделе доставка"
   },
   {
     name: "Steampunk",
+    title: "Доставка",
     image: "https://images.unsplash.com/photo-1576793048000-494aaa93d160?auto=format&fit=crop&q=80&w=500",
-  }
+    description: " Доставка осуществляется местной испанской почтовой службой Corerros. Примерная сумма доставки сообщится вам при оформлении заказа, точная стоимость сообщится вам после самой отправки. Я вышлю вам квитанцию об отправлении на которой будет указана точная стоимость, которую вы также сможете оплатить на пэйпал."
+  },
 ];
 
 function App() {
@@ -135,6 +147,36 @@ function App() {
     alert('Order placed successfully!');
     setCart([]);
     setIsCheckingOut(false);
+
+    fetch('/api/order', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        cart,
+        formData,
+      }),
+    })
+      .then(response => {
+        if (!response.ok) {
+          toast.error('There was an error processing your order. Please try again.');
+          throw new Error('Network response was not ok');
+        }
+        toast.success('Order placed successfully!');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Success:', data);
+        alert('Order placed successfully!');
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('There was an error processing your order. Please try again.');
+      });
   };
 
   if (isCheckingOut) {
@@ -317,23 +359,24 @@ function App() {
 
   return (
     <div className="min-h-screen bg-black text-gray-200">
+      <ToastContainer />
       {/* Navigation */}
       <nav className="border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-2">
               <Skull className="w-8 h-8" />
-              <span className="text-xl font-gothic">Nocturnal Attire</span>
+              <span className="text-xl font-gothic">Polymerclay Witchcraft</span>
             </div>
             
-            <div className="hidden md:flex items-center space-x-8">
+            {/* <div className="hidden md:flex items-center space-x-8">
               <a href="#" className="hover:text-red-400 transition-colors">Collections</a>
               <a href="#" className="hover:text-red-400 transition-colors">New Arrivals</a>
               <a href="#" className="hover:text-red-400 transition-colors">Accessories</a>
               <a href="#" className="hover:text-red-400 transition-colors">Sale</a>
-            </div>
+            </div> */}
 
-            <div className="flex items-center space-x-4">
+            {/* <div className="flex items-center space-x-4">
               <button className="p-2 hover:bg-gray-800 rounded-full">
                 <Search className="w-5 h-5" />
               </button>
@@ -354,7 +397,7 @@ function App() {
               <button className="md:hidden p-2 hover:bg-gray-800 rounded-full">
                 <Menu className="w-5 h-5" />
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       </nav>
@@ -442,19 +485,47 @@ function App() {
       )}
 
       {/* Hero Section */}
-      <div className="relative h-[500px] bg-center bg-cover" 
+      <div className="relative h-[200px] bg-center bg-cover" 
            style={{backgroundImage: "url('https://images.unsplash.com/photo-1604373679152-1c698ca9d9e4?auto=format&fit=crop&q=80')"}}
       >
         <div className="absolute inset-0 bg-black bg-opacity-60">
           <div className="max-w-7xl mx-auto px-4 h-full flex items-center">
             <div className="text-center md:text-left">
-              <h1 className="text-4xl md:text-6xl font-bold mb-4">Embrace the Darkness</h1>
-              <p className="text-xl mb-8 text-gray-300">Discover our curated collection of gothic fashion</p>
-              <button className="bg-red-900 hover:bg-red-800 px-8 py-3 text-lg transition-colors">
+              <h1 className="text-4xl md:text-6xl font-bold mb-4">Кастомные заказы</h1>
+              <p className="text-xl mb-8 text-gray-300">
+                Дорогие друзья, я готова поработать над вашими идеями и заказами. 
+                Так как я забочусь о том, чтобы у каждого из вас было свое уникальное изделие, я никогда не делаю точных повторов.
+                Но мы всегда может сделать что-то уникальное для вас по мотивам моих прошлых работ или же воплотить именно вашу идею.
+              </p>
+              {/* <button className="bg-red-900 hover:bg-red-800 px-8 py-3 text-lg transition-colors">
                 Shop Now
-              </button>
+              </button> */}
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Categories */}
+      <div className="max-w-7xl mx-auto px-4 py-16">
+        <h2 className="text-3xl font-bold mb-8 text-center">Если вы уверены, что хотите сделать кастомный заказ:</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {categories.map((category) => (
+            <div key={category.name} className="relative group cursor-pointer">
+              <div className="relative h-[300px] overflow-hidden">
+              <img 
+                  src={category.image} 
+                  alt={category.name}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:hidden"
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-30 transition-all">
+                  <div className="h-full flex items-center justify-center">
+                    <h3 className="text-2xl font-bold group-hover:hidden">{category.title}</h3>
+                    <p className="text-lg text-gray-300 hidden group-hover:block">{category.description}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -487,32 +558,9 @@ function App() {
         </div>
       </div>
 
-      {/* Categories */}
-      <div className="max-w-7xl mx-auto px-4 py-16">
-        <h2 className="text-3xl font-bold mb-8 text-center">Shop by Style</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {categories.map((category) => (
-            <div key={category.name} className="relative group cursor-pointer">
-              <div className="relative h-[300px] overflow-hidden">
-                <img 
-                  src={category.image} 
-                  alt={category.name}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-30 transition-all">
-                  <div className="h-full flex items-center justify-center">
-                    <h3 className="text-2xl font-bold">{category.name}</h3>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
       {/* Featured Products */}
       <div className="max-w-7xl mx-auto px-4 py-16">
-        <h2 className="text-3xl font-bold mb-8 text-center">Featured Collection</h2>
+        <h2 className="text-3xl font-bold mb-8 text-center">Featured Items</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {products.map((product) => (
             <div key={product.id} className="group">
@@ -550,7 +598,7 @@ function App() {
       </div>
 
       {/* Newsletter */}
-      <div className="bg-gray-900">
+      {/* <div className="bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 py-16 text-center">
           <h2 className="text-3xl font-bold mb-4">Join the Dark Side</h2>
           <p className="mb-8 text-gray-400">Subscribe to our newsletter for exclusive offers and updates</p>
@@ -566,7 +614,7 @@ function App() {
           </div>
         </div>
       </div>
-
+ */}
       {/* Footer */}
       <footer className="border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-4 py-12">
@@ -604,7 +652,7 @@ function App() {
             </div>
           </div>
           <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
-            <p>&copy; 2025 Nocturnal Attire. All rights reserved.</p>
+            <p>&copy; 2025 Polymerclay Witchcraft Store. All rights reserved.</p>
           </div>
         </div>
       </footer>
