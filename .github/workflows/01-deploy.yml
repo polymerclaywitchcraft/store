@@ -24,7 +24,7 @@ jobs:
     timeout-minutes: 2
     environment:
       name: development
-      url: https://shop-beta.polymerclaywitchcraft.com
+      url: https://store-beta.polymerclaywitchcraft.com
     outputs:
       stage: ${{ steps.stage-env.outputs.stage }}
       is_default: ${{ steps.branch-name.outputs.is_default }}
@@ -126,7 +126,7 @@ jobs:
     if: ${{ needs.pre-setup.outputs.stage == 'production' }}
     environment:
       name: production
-      url: https://shop.polymerclaywitchcraft.com
+      url: https://store.polymerclaywitchcraft.com
     steps:
       - name: Info step
         run: echo "Running with stage ${{ needs.pre-setup.outputs.stage }}"
@@ -148,7 +148,7 @@ jobs:
     if: ${{ needs.pre-setup.outputs.is_default == 'true' }}
     environment:
       name: production
-      url: https://shop.polymerclaywitchcraft.com
+      url: https://store.polymerclaywitchcraft.com
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3

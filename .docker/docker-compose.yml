@@ -1,6 +1,6 @@
 services:
   db:
-    restart: 'no'
+    restart: unless-stopped
     image: mongo:8
     volumes:
       - './data/db:/data/db'
@@ -10,22 +10,22 @@ services:
       options:
         max-size: '1m'
     networks:
-      - memes_net
+      - shop_net
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${DOCKER_MONGO_USER_NAME:-root}
       MONGO_INITDB_ROOT_PASSWORD: ${DOCKER_MONGO_USER_PASS:-example}
 
-  redis:
-    image: redislabs/redismod
-    volumes:
-      - ./data/cache:/data
-    restart: "no"
-    networks:
-      - memes_net
-    logging:
-        driver: "json-file"
-        options:
-            max-size: "5m"
+  # redis:
+  #   image: redislabs/redismod
+  #   volumes:
+  #     - ./data/cache:/data
+  #   restart: "no"
+  #   networks:
+  #     - shop_net
+  #   logging:
+  #       driver: "json-file"
+  #       options:
+  #           max-size: "5m"
 
   server:
     image: ghcr.io/polymerclaywitchcraft/shop-${DOCKER_VERSION:-development}:latest
@@ -37,12 +37,13 @@ services:
       - .env
     depends_on:
       - redis
+      - db
     networks:
-      - memes_net
+      - shop_net
     logging:
         driver: "json-file"
         options:
             max-size: "5m"
 
 networks:
-  memes_net:
+  shop_net:
