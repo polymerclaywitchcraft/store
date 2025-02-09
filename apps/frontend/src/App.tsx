@@ -57,13 +57,13 @@ const categories = [
   {
     name: "Victorian Era",
     title: "Кастомные заказы",
-    image: "https://images.unsplash.com/photo-1518997613208-3a8c04ad1324?auto=format&fit=crop&q=80&w=500",
+    image: "./images/cat-image1.jpg",
     description: "Дорогие друзья, я готова поработать над вашими идеями и заказами. Так как я забочусь о том, чтобы у каждого из вас было свое уникальное изделие, я никогда не делаю точных повторов. Но мы всегда может сделать что-то уникальное для вас по мотивам моих прошлых работ или же воплотить именно вашу идею."
   },
   {
     name: "Modern Gothic",
     title: "Как заказать",
-    image: "https://images.unsplash.com/photo-1582533561751-ef6f6ab93a2e?auto=format&fit=crop&q=80&w=500",
+    image: "./images/cat-image2.jpg",
     description: "1. Напишите мне в директ в инстаграм свою свои пожелания или по мотивам какой моей работы вы хотели бы чтобы я создала изделие " + 
  "2. Мы обговариваем с вами детали и дизайн " +
  "3. Чтобы я могла поставить вам в очередь на изготовление, я обычно беру предоплат 40%. Оплатить можно будет через пэй пал" +
@@ -74,7 +74,7 @@ const categories = [
   {
     name: "Steampunk",
     title: "Доставка",
-    image: "https://images.unsplash.com/photo-1576793048000-494aaa93d160?auto=format&fit=crop&q=80&w=500",
+    image: "./images/cat-image3.jpg",
     description: " Доставка осуществляется местной испанской почтовой службой Corerros. Примерная сумма доставки сообщится вам при оформлении заказа, точная стоимость сообщится вам после самой отправки. Я вышлю вам квитанцию об отправлении на которой будет указана точная стоимость, которую вы также сможете оплатить на пэйпал."
   },
 ];
@@ -486,16 +486,14 @@ function App() {
 
       {/* Hero Section */}
       <div className="relative h-[200px] bg-center bg-cover" 
-           style={{backgroundImage: "url('https://images.unsplash.com/photo-1604373679152-1c698ca9d9e4?auto=format&fit=crop&q=80')"}}
+          //  style={{backgroundImage: "url('https://images.unsplash.com/photo-1604373679152-1c698ca9d9e4?auto=format&fit=crop&q=80')"}}
       >
         <div className="absolute inset-0 bg-black bg-opacity-60">
           <div className="max-w-7xl mx-auto px-4 h-full flex items-center">
             <div className="text-center md:text-left">
-              <h1 className="text-4xl md:text-6xl font-bold mb-4">Кастомные заказы</h1>
+              <h1 className="text-4xl md:text-6xl font-bold mb-4">My Showcase</h1>
               <p className="text-xl mb-8 text-gray-300">
-                Дорогие друзья, я готова поработать над вашими идеями и заказами. 
-                Так как я забочусь о том, чтобы у каждого из вас было свое уникальное изделие, я никогда не делаю точных повторов.
-                Но мы всегда может сделать что-то уникальное для вас по мотивам моих прошлых работ или же воплотить именно вашу идею.
+                I create gothic jewellery inspired by dark fairy tales. Crafted with magic in every detail and atmosphere
               </p>
               {/* <button className="bg-red-900 hover:bg-red-800 px-8 py-3 text-lg transition-colors">
                 Shop Now
