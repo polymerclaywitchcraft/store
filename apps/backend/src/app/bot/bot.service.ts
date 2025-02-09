@@ -9,7 +9,10 @@ export class BotService {
     this.bot = new Bot(config.telegram.token);
   }
 
-  async sendMessage(message: string) {
-    await this.bot.api.sendMessage(config.telegram.channelId, message);
+  async sendMessage(message: string, toMessageId?: number) {
+    return await this.bot.api.sendMessage(config.telegram.channelId, message, {
+      parse_mode: "HTML",
+      reply_to_message_id: toMessageId,
+    });
   }
 }

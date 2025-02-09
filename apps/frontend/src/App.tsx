@@ -5,7 +5,9 @@ import { toast, ToastContainer } from 'react-toastify';
 interface Product {
   id: number;
   name: string;
-  price: string;
+  material: string;
+  info: string;
+  price: number;
   image: string;
 }
 
@@ -15,67 +17,107 @@ interface CartItem extends Product {
 
 interface CheckoutFormData {
   email: string;
+  instagram: string;
   firstName: string;
   lastName: string;
   address: string;
   city: string;
   country: string;
   postalCode: string;
-  cardNumber: string;
-  cardExpiry: string;
-  cardCvc: string;
 }
 
-const products = [
+const products: Product[] = [
   {
     id: 1,
-    name: "Gothic Victorian Dress",
-    price: "$299.99",
-    image: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&q=80&w=500",
+    name: "'Tarot' Earrings",
+    price: 270,
+    image: "goods/item1.jpg",
+    info: 'Length: 11.5 cm (4.5 inches), Width: 3.5 cm (1.4 inches)',
+    material: 'Polymer clay and stainless steel',
   },
   {
     id: 2,
-    name: "Black Velvet Coat",
-    price: "$199.99",
-    image: "https://images.unsplash.com/photo-1584030373081-f37b7bb4fa8e?auto=format&fit=crop&q=80&w=500",
+    name: "'Engraved Midnight' Earrings",
+    price: 200,
+    image: "goods/item2.jpg",
+    info: 'Length: 11 cm (4.3 inches), Width: 3.5 cm (1.4 inches)',
+    material: 'Polymer clay and stainless steel',
   },
   {
     id: 3,
-    name: "Silver Gothic Jewelry",
-    price: "$89.99",
-    image: "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?auto=format&fit=crop&q=80&w=500",
+    name: "Choker with Pendant 'Bloody Beam'",
+    price: 160,
+    image: "goods/item3.jpg",
+    info: 'Pendant length (including bead dangles): 12.5 cm  Pendant width: 3.5 cm  Ribbon length: 42 cm (adjustable from 37 cm to 42 cm)',
+    material: 'Polymer clay, UV resin, velvet ribbon, stainless steel, glass beads',
   },
   {
     id: 4,
-    name: "Leather Platform Boots",
-    price: "$159.99",
-    image: "https://images.unsplash.com/photo-1516478177764-9fe5bd7e9717?auto=format&fit=crop&q=80&w=500",
-  }
+    name: "Earrings 'Jack's Smile'",
+    price: 70,
+    image: "goods/item4.jpg",
+    info: 'Length: 5.5 cm Charm size: 2.6 cm × 2.3 cm',
+    material: 'Polymer clay and stainless steel',
+  },
+  {
+    id: 5,
+    name: "Brooch 'Secrets of Forest Fairies' (without frame)",
+    price: 160,
+    image: "goods/item5.jpg",
+    info: 'Size: 7.5 cm × 9.5 cm',
+    material: 'Polymer clay',
+  },
+  {
+    id: 6,
+    name: "Brooch 'Secrets of Forest Fairies' (with frame)",
+    price: 180,
+    image: "goods/item6.jpg",
+    info: 'Size with wall frame: 12 cm × 9.5 cm. For wall mounting.',
+    material: 'Polymer clay',
+  },
+  {
+    id: 7,
+    name: "'Witch's Harvest' brooch",
+    price: 60,
+    image: "goods/item7.jpg",
+    material: 'Polymer clay',
+    info: 'Size: 4.5 cm × 4 cm',
+  },
+  {
+    id: 8,
+    name: "Earrings 'Her Potion'",
+    price: 200,
+    image: "goods/item8.jpg",
+    material: 'Polymer clay, stainless steel',
+    info: 'Length: 7.5 cm with cauldron, 10.5 cm with hat (including dangles)',
+  },
 ];
 
 const categories = [
   {
-    name: "Victorian Era",
-    title: "Кастомные заказы",
+    name: "custom-orders",
+    title: "Custom items policy",
     image: "./images/cat-image1.jpg",
-    description: "Дорогие друзья, я готова поработать над вашими идеями и заказами. Так как я забочусь о том, чтобы у каждого из вас было свое уникальное изделие, я никогда не делаю точных повторов. Но мы всегда может сделать что-то уникальное для вас по мотивам моих прошлых работ или же воплотить именно вашу идею."
+    description: "Dear friends, I am ready to work on your ideas and orders. Since I care about ensuring each of you has your own unique piece, I never create exact replicas. However, we can always craft something unique for you inspired by my previous works or bring your specific idea to life."
   },
   {
-    name: "Modern Gothic",
-    title: "Как заказать",
+    name: "how-to-order",
+    title: "How to make an custom order",
     image: "./images/cat-image2.jpg",
-    description: "1. Напишите мне в директ в инстаграм свою свои пожелания или по мотивам какой моей работы вы хотели бы чтобы я создала изделие " + 
- "2. Мы обговариваем с вами детали и дизайн " +
- "3. Чтобы я могла поставить вам в очередь на изготовление, я обычно беру предоплат 40%. Оплатить можно будет через пэй пал" +
- "4. Я ставлю вас в очередь и говорю через сколько приступлю к заказу и когда он будет готов. Будьте готовы, что нужно будет подождать, так как я очень тщательно работаю над изделиями и к сожалению не могу обещать вам очень быстрых сроков если очередь длинная." +
- "5. Как только я изготавливаю заказ полностью и высылаю вам фото, вы переводите остаток суммы оплаты на мой пэйпал" +
- "6. Далее осуществляется доставка как описано в разделе доставка"
+    description: [
+      "1. Write to me directly on Instagram with your wishes or let me know which of my works you'd like me to base your piece on.",
+      "2. We will discuss the details and design together.",
+      "3. To reserve your spot in the queue for production, I usually request a 40% upfront payment. Payment can be made via PayPal.",
+      "4. I will place you in the queue and let you know when I will begin your order and when it will be ready. Please be prepared to wait, as I put a lot of care and attention into each piece, and unfortunately, I cannot promise very quick turnaround times if the queue is long.",
+      " 5. Once I have completed your order, I will send you photos of the finished piece. After that, you can transfer the remaining balance to my PayPal.",
+      " 6. Delivery will be handled as described in the “Delivery” section."
+    ].join('<br/>')
   },
   {
-    name: "Steampunk",
-    title: "Доставка",
+    name: "delivery",
+    title: "Delivery",
     image: "./images/cat-image3.jpg",
-    description: " Доставка осуществляется местной испанской почтовой службой Corerros. Примерная сумма доставки сообщится вам при оформлении заказа, точная стоимость сообщится вам после самой отправки. Я вышлю вам квитанцию об отправлении на которой будет указана точная стоимость, которую вы также сможете оплатить на пэйпал."
+    description: "Delivery is carried out by the international Spanish postal service Corerros. The approximate delivery amount will be communicated to you when placing the order, and the exact cost will be communicated to you after the shipment itself. I will send you a receipt for the shipment indicating the exact cost, which you can also pay via PayPal."
   },
 ];
 
@@ -85,15 +127,13 @@ function App() {
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [formData, setFormData] = useState<CheckoutFormData>({
     email: '',
+    instagram: '',
     firstName: '',
     lastName: '',
     address: '',
     city: '',
     country: '',
     postalCode: '',
-    cardNumber: '',
-    cardExpiry: '',
-    cardCvc: '',
   });
 
   const addToCart = (product: Product) => {
@@ -129,7 +169,7 @@ function App() {
   };
 
   const cartTotal = cart.reduce((total, item) => {
-    const price = parseFloat(item.price.replace('$', ''));
+    const price = item.price;
     return total + price * item.quantity;
   }, 0);
 
@@ -143,12 +183,12 @@ function App() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically handle payment processing and order submission
-    alert('Order placed successfully!');
-    setCart([]);
     setIsCheckingOut(false);
 
-    fetch('/api/order', {
+    const endpoint = import.meta.env.VITE_API_ENDPOINT || '';
+    console.log(endpoint);
+
+    fetch(`${endpoint}/api/order`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -158,25 +198,17 @@ function App() {
         formData,
       }),
     })
-      .then(response => {
-        if (!response.ok) {
-          toast.error('There was an error processing your order. Please try again.');
-          throw new Error('Network response was not ok');
-        }
+    .then(response => {
+      if (response.status) {
         toast.success('Order placed successfully!');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log('Success:', data);
-        alert('Order placed successfully!');
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('There was an error processing your order. Please try again.');
-      });
+        setCart([]);
+      } else {
+        toast.error('There was an error processing your order. Please try again.');
+      }
+    })
+    .catch(error => {
+      toast.error('There was an error processing your order. Please try again.');
+    });
   };
 
   if (isCheckingOut) {
@@ -203,6 +235,15 @@ function App() {
                       name="email"
                       placeholder="Email"
                       value={formData.email}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full px-4 py-2 bg-gray-900 border border-gray-800 rounded-md focus:border-red-500 focus:ring-1 focus:ring-red-500"
+                    />
+                    <input
+                      type="text"
+                      name="instagram"
+                      placeholder="Instagram"
+                      value={formData.instagram}
                       onChange={handleInputChange}
                       required
                       className="w-full px-4 py-2 bg-gray-900 border border-gray-800 rounded-md focus:border-red-500 focus:ring-1 focus:ring-red-500"
@@ -274,41 +315,6 @@ function App() {
                   </div>
                 </div>
 
-                <div>
-                  <h3 className="text-lg font-semibold mb-4">Payment Information</h3>
-                  <div className="space-y-4">
-                    <input
-                      type="text"
-                      name="cardNumber"
-                      placeholder="Card Number"
-                      value={formData.cardNumber}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-2 bg-gray-900 border border-gray-800 rounded-md focus:border-red-500 focus:ring-1 focus:ring-red-500"
-                    />
-                    <div className="grid grid-cols-2 gap-4">
-                      <input
-                        type="text"
-                        name="cardExpiry"
-                        placeholder="MM/YY"
-                        value={formData.cardExpiry}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-4 py-2 bg-gray-900 border border-gray-800 rounded-md focus:border-red-500 focus:ring-1 focus:ring-red-500"
-                      />
-                      <input
-                        type="text"
-                        name="cardCvc"
-                        placeholder="CVC"
-                        value={formData.cardCvc}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-4 py-2 bg-gray-900 border border-gray-800 rounded-md focus:border-red-500 focus:ring-1 focus:ring-red-500"
-                      />
-                    </div>
-                  </div>
-                </div>
-
                 <button 
                   type="submit"
                   className="w-full bg-red-900 hover:bg-red-800 py-3 rounded-md transition-colors"
@@ -338,15 +344,11 @@ function App() {
                 <div className="border-t border-gray-800 pt-4">
                   <div className="flex justify-between text-lg">
                     <span>Subtotal</span>
-                    <span>${cartTotal.toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between text-lg mt-2">
-                    <span>Shipping</span>
-                    <span>Free</span>
+                    <span>€ {cartTotal.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between text-lg font-semibold mt-4 pt-4 border-t border-gray-800">
                     <span>Total</span>
-                    <span>${cartTotal.toFixed(2)}</span>
+                    <span>€ {cartTotal.toFixed(2)}</span>
                   </div>
                 </div>
               </div>
@@ -376,13 +378,13 @@ function App() {
               <a href="#" className="hover:text-red-400 transition-colors">Sale</a>
             </div> */}
 
-            {/* <div className="flex items-center space-x-4">
-              <button className="p-2 hover:bg-gray-800 rounded-full">
+            <div className="flex items-center space-x-4">
+              {/* <button className="p-2 hover:bg-gray-800 rounded-full">
                 <Search className="w-5 h-5" />
               </button>
               <button className="p-2 hover:bg-gray-800 rounded-full">
                 <Heart className="w-5 h-5" />
-              </button>
+              </button> */}
               <button 
                 className="p-2 hover:bg-gray-800 rounded-full relative"
                 onClick={() => setIsCartOpen(true)}
@@ -397,7 +399,7 @@ function App() {
               <button className="md:hidden p-2 hover:bg-gray-800 rounded-full">
                 <Menu className="w-5 h-5" />
               </button>
-            </div> */}
+            </div>
           </div>
         </div>
       </nav>
@@ -505,11 +507,10 @@ function App() {
 
       {/* Categories */}
       <div className="max-w-7xl mx-auto px-4 py-16">
-        <h2 className="text-3xl font-bold mb-8 text-center">Если вы уверены, что хотите сделать кастомный заказ:</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {categories.map((category) => (
             <div key={category.name} className="relative group cursor-pointer">
-              <div className="relative h-[300px] overflow-hidden">
+              <div className="relative h-[700px] overflow-hidden">
               <img 
                   src={category.image} 
                   alt={category.name}
@@ -518,7 +519,7 @@ function App() {
                 <div className="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-30 transition-all">
                   <div className="h-full flex items-center justify-center">
                     <h3 className="text-2xl font-bold group-hover:hidden">{category.title}</h3>
-                    <p className="text-lg text-gray-300 hidden group-hover:block">{category.description}</p>
+                    <p className="text-lg text-gray-300 hidden group-hover:block" dangerouslySetInnerHTML={{ __html: category.description }}></p>
                   </div>
                 </div>
               </div>
@@ -527,38 +528,9 @@ function App() {
         </div>
       </div>
 
-      {/* Features */}
-      <div className="bg-gray-900">
-        <div className="max-w-7xl mx-auto px-4 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="flex items-center space-x-4">
-              <Truck className="w-10 h-10 text-red-500" />
-              <div>
-                <h3 className="font-semibold">Free Shipping</h3>
-                <p className="text-gray-400">On orders over $200</p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Clock className="w-10 h-10 text-red-500" />
-              <div>
-                <h3 className="font-semibold">24/7 Support</h3>
-                <p className="text-gray-400">Get help anytime</p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Shield className="w-10 h-10 text-red-500" />
-              <div>
-                <h3 className="font-semibold">Secure Payments</h3>
-                <p className="text-gray-400">100% protected</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Featured Products */}
       <div className="max-w-7xl mx-auto px-4 py-16">
-        <h2 className="text-3xl font-bold mb-8 text-center">Featured Items</h2>
+        <h2 className="text-3xl font-bold mb-8 text-center">Items in stock</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {products.map((product) => (
             <div key={product.id} className="group">
@@ -579,15 +551,10 @@ function App() {
               </div>
               <div className="mt-4">
                 <h3 className="text-lg font-semibold">{product.name}</h3>
+                <p className="text-lg">Material: {product.material}</p>
+                <p className="text-sm">{product.info}</p>
                 <div className="flex items-center justify-between">
-                  <p className="text-red-500">{product.price}</p>
-                  <div className="flex items-center">
-                    <Star className="w-4 h-4 text-red-500 fill-current" />
-                    <Star className="w-4 h-4 text-red-500 fill-current" />
-                    <Star className="w-4 h-4 text-red-500 fill-current" />
-                    <Star className="w-4 h-4 text-red-500 fill-current" />
-                    <Star className="w-4 h-4 text-gray-600" />
-                  </div>
+                  <p className="text-red-500">€ {product.price}</p>
                 </div>
               </div>
             </div>
@@ -612,45 +579,40 @@ function App() {
           </div>
         </div>
       </div>
- */}
+      */}
+
       {/* Footer */}
       <footer className="border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-4 py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <h3 className="font-bold text-lg mb-4">About Us</h3>
-              <p className="text-gray-400">Crafting darkness into elegance since 2020. Your premier destination for gothic fashion and accessories.</p>
+              <h3 className="font-bold text-lg mb-4">About Me</h3>
+              <p className="text-gray-400">Polymer Clay Witch since 2016.</p>
             </div>
             <div>
               <h3 className="font-bold text-lg mb-4">Quick Links</h3>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-red-400">FAQ</a></li>
-                <li><a href="#" className="hover:text-red-400">Shipping Info</a></li>
-                <li><a href="#" className="hover:text-red-400">Returns</a></li>
-                <li><a href="#" className="hover:text-red-400">Contact Us</a></li>
+                <li><a href="#" className="hover:text-red-400">Soon</a></li>
               </ul>
             </div>
             <div>
               <h3 className="font-bold text-lg mb-4">Categories</h3>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-red-400">Dresses</a></li>
-                <li><a href="#" className="hover:text-red-400">Accessories</a></li>
-                <li><a href="#" className="hover:text-red-400">Footwear</a></li>
-                <li><a href="#" className="hover:text-red-400">Jewelry</a></li>
+                <li><a href="#" className="hover:text-red-400">Soon</a></li>
               </ul>
             </div>
             <div>
               <h3 className="font-bold text-lg mb-4">Connect</h3>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-red-400">Instagram</a></li>
-                <li><a href="#" className="hover:text-red-400">Facebook</a></li>
-                <li><a href="#" className="hover:text-red-400">Twitter</a></li>
-                <li><a href="#" className="hover:text-red-400">Pinterest</a></li>
+                <li><a href="https://www.instagram.com/polymerclay_witchcraft" className="hover:text-red-400">Instagram</a></li>
+                <li><a href="https://www.facebook.com/share/fA76GzRWFfvrPgW3/" className="hover:text-red-400">Facebook</a></li>
+                <li><a href="https://www.patreon.com/polymerclay_witchcraft" className="hover:text-red-400">Patreon</a></li>
+                <li><a href="https://www.tiktok.com/@polymerclay_witchcraft" className="hover:text-red-400">TikTok</a></li>
               </ul>
             </div>
           </div>
           <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
-            <p>&copy; 2025 Polymerclay Witchcraft Store. All rights reserved.</p>
+            <p>&copy; 2025 Jane / Polymerclay Witchcraft. All rights reserved.</p>
           </div>
         </div>
       </footer>

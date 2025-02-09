@@ -141,23 +141,3 @@ jobs:
             docker compose pull
             docker compose up -d
             docker system prune -af
-
-  update_package_version:
-    needs: [pre-setup, deploy_prod]
-    runs-on: ubuntu-latest
-    if: ${{ needs.pre-setup.outputs.is_default == 'true' }}
-    environment:
-      name: production
-      url: https://store.polymerclaywitchcraft.com
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-      - run: |
-          git config user.name github-actions
-          git config user.email github-actions[bot]@users.noreply.github.com
-          npm version patch
-          git push
-          git push --tags || true
-

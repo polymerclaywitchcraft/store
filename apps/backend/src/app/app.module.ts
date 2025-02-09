@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import path from 'node:path';
 import { OrderModule } from './order/order.module';
+import { ItemModule } from './items/item.module';
 
 console.log(path.join(__dirname, '..', 'frontend'));
 
@@ -12,6 +13,7 @@ console.log(path.join(__dirname, '..', 'frontend'));
     ServeStaticModule.forRoot({
       rootPath: path.join(__dirname, '..', 'frontend'),
     }),
+    ItemModule,
     OrderModule,
   ],
   controllers: [AppController],
