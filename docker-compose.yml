@@ -1,0 +1,39 @@
+services:
+  db:
+    restart: 'no'
+    image: mongo:8
+    volumes:
+      - './data/db:/data/db'
+    ports:
+      - '${DOCKER_MONGO_PORT:-127.0.0.1:27017}:27017'
+    logging:
+      options:
+        max-size: '1m'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DOCKER_MONGO_USER_NAME:-root}
+      MONGO_INITDB_ROOT_PASSWORD: ${DOCKER_MONGO_USER_PASS:-example}
+
+  redis:
+    image: redislabs/redismod
+    volumes:
+      - ./data/cache:/data
+    ports:
+      - '${DOCKER_REDIS_PORT:-127.0.0.1:6379}:6379'
+    restart: "no"
+    logging:
+        driver: "json-file"
+        options:
+            max-size: "5m"
+
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    command: tunnel --no-autoupdate run --token $CF_TOKEN
+    environment:
+      - CF_TOKEN=${CF_TOKEN}
+    restart: "no"
+    extra_hosts:
+        - "host.docker.internal:host-gateway"
+    logging:
+        driver: "json-file"
+        options:
+            max-size: "5m"
