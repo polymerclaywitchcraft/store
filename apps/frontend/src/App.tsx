@@ -592,7 +592,7 @@ function App() {
             <div>
               <h3 className="font-bold text-lg mb-4">Quick Links</h3>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-red-400">Soon</a></li>
+                <li><a href="https://polymerclaywitchcraft.com/" className="hover:text-red-400">Main page</a></li>
               </ul>
             </div>
             <div>
