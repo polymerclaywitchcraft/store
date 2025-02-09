@@ -29,8 +29,8 @@ COPY ./package-lock.json /project
 COPY ./nx.json /project
 COPY ./tsconfig.base.json /project
 # This files is not used in the project, but it is necessary to build the project
-# COPY ./.eslintrc.json /project
-# COPY ./.eslintignore /project
+COPY ./eslint.config.mjs /project
+COPY ./.eslintignore /project
 COPY ./jest.config.ts /project
 COPY ./jest.preset.js /project
 
@@ -41,11 +41,15 @@ COPY .env /project/
 COPY ./apps/ /project/apps
 # COPY ./libs/ /project/libs
 
-# Build the server
+# Install dependencies
 RUN \
   npm pkg delete scripts.prepare \
-  && npm ci \
-  && npm run build
+  && npm ci
+
+  
+# Build the server
+ENV NX_DAEMON=false 
+RUN npm run nx:build
 
 ENV HOST=0.0.0.0
 

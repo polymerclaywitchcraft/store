@@ -1,0 +1,48 @@
+services:
+  db:
+    restart: 'no'
+    image: mongo:8
+    volumes:
+      - './data/db:/data/db'
+    ports:
+      - '${DOCKER_MONGO_PORT:-127.0.0.1:27017}:27017'
+    logging:
+      options:
+        max-size: '1m'
+    networks:
+      - memes_net
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DOCKER_MONGO_USER_NAME:-root}
+      MONGO_INITDB_ROOT_PASSWORD: ${DOCKER_MONGO_USER_PASS:-example}
+
+  redis:
+    image: redislabs/redismod
+    volumes:
+      - ./data/cache:/data
+    restart: "no"
+    networks:
+      - memes_net
+    logging:
+        driver: "json-file"
+        options:
+            max-size: "5m"
+
+  server:
+    image: ghcr.io/polymerclaywitchcraft/shop-${DOCKER_VERSION:-development}:latest
+    pull_policy: always
+    restart: unless-stopped
+    ports:
+      - ${DOCKER_SERVER_PORT:-127.0.0.1:3000}:3000
+    env_file:
+      - .env
+    depends_on:
+      - redis
+    networks:
+      - memes_net
+    logging:
+        driver: "json-file"
+        options:
+            max-size: "5m"
+
+networks:
+  memes_net:
