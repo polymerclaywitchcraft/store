@@ -1,0 +1,163 @@
+name: Deployments
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+env:
+  STAGE: development
+  NODE_ENV: production
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  NODE_VERSION: 20.x
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pre-setup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    environment:
+      name: development
+      url: https://shop-beta.polymerclaywitchcraft.com
+    outputs:
+      stage: ${{ steps.stage-env.outputs.stage }}
+      is_default: ${{ steps.branch-name.outputs.is_default }}
+      current_branch: ${{ steps.branch-name.outputs.current_branch }}
+    steps:
+      - name: Sets env vars for main
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "STAGE=production" >> $GITHUB_ENV
+
+      - name: Set stage
+        id: stage-env
+        run: |
+          echo "::set-output name=stage::${{ env.STAGE }}"
+
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v7.0.7
+
+      - name: Running on the default branch.
+        if: steps.branch-name.outputs.is_default == 'true'
+        run: |
+          echo "Running on default: ${{ steps.branch-name.outputs.current_branch }}"
+        # Outputs: "Running on default: main".
+
+      - name: Running on a pull request branch.
+        if: steps.branch-name.outputs.is_default == 'false'
+        run: |
+          echo "Running on pr: ${{ steps.branch-name.outputs.current_branch }}"
+
+  build:
+    needs: [pre-setup]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Set env file for Docker (development)
+        if: ${{ needs.pre-setup.outputs.stage == 'development' }}
+        run: |
+          echo "${{ secrets.ENV_FILE_STAGING }}" > .env
+
+      - name: Set env file for Docker (production)
+        if: ${{ needs.pre-setup.outputs.stage == 'production' }}
+        run: |
+          echo "${{ secrets.ENV_FILE_PRODUCTION }}" > .env
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.REGISTRY_USER }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ needs.pre-setup.outputs.stage }}:latest
+          labels: ${{ steps.meta.outputs.labels }}
+
+  deploy_dev:
+    needs: [pre-setup, build]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    if: ${{ needs.pre-setup.outputs.stage == 'development' }}
+    environment:
+      name: development
+      url: https://t.me/memesitosbot
+    steps:
+      - name: Check branch
+        run: |
+          echo "Running on branch: ${{ needs.pre-setup.outputs.current_branch }}"
+      - name: Update via ssh (staging)
+        uses: appleboy/ssh-action@v1.0.3
+        if: ${{ env.STAGE != 'production' }}
+        with:
+          # command: cd ${{ secrets.STAGING_FOLDER }} && git fetch && git reset --hard && git checkout ${{ needs.pre-setup.outputs.current_branch }} && git pull --rebase && docker compose pull && docker compose up -d && docker system prune -af
+          host: ${{ secrets.STAGING_SSH_HOST }}
+          username: ${{ secrets.STAGING_SSH_USER }}
+          key: ${{ secrets.STAGING_SSH_KEY }}
+          script: |
+            cd ${{ secrets.STAGING_FOLDER }}
+            docker compose pull
+            docker compose up -d
+            docker system prune -af
+
+  deploy_prod:
+    needs: [pre-setup, build]
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    if: ${{ needs.pre-setup.outputs.stage == 'production' }}
+    environment:
+      name: production
+      url: https://shop.polymerclaywitchcraft.com
+    steps:
+      - name: Info step
+        run: echo "Running with stage ${{ needs.pre-setup.outputs.stage }}"
+      - name: Update via ssh (production)
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.PRODUCTION_SSH_HOST }}
+          username: ${{ secrets.PRODUCTION_SSH_USER }}
+          key: ${{ secrets.PRODUCTION_SSH_KEY }}
+          script: |
+            cd ${{ secrets.PRODUCTION_FOLDER }}
+            docker compose pull
+            docker compose up -d
+            docker system prune -af
+
+  update_package_version:
+    needs: [pre-setup, deploy_prod]
+    runs-on: ubuntu-latest
+    if: ${{ needs.pre-setup.outputs.is_default == 'true' }}
+    environment:
+      name: production
+      url: https://shop.polymerclaywitchcraft.com
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - run: |
+          git config user.name github-actions
+          git config user.email github-actions[bot]@users.noreply.github.com
+          npm version patch
+          git push
+          git push --tags || true
+

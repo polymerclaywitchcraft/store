@@ -1,0 +1,77 @@
+name: Builds and checks
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+
+env:
+  STAGE: development
+  NODE_ENV: production
+
+jobs:
+  lint-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: testing
+      url: https://github.com/polymerclaywitchcraft/shop/actions
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - name: Step info
+        run: |
+          echo "Verification started!"
+
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v7.0.7
+
+      - name: Running on the default branch.
+        if: steps.branch-name.outputs.is_default == 'true'
+        run: |
+          echo "Running on default: ${{ steps.branch-name.outputs.current_branch }}"
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install project
+        run: npm install
+        env:
+          NODE_ENV: development # eslint packages
+          HUSKY: 0
+
+      # - name: Run linters
+      #   uses: reviewdog/action-eslint@v1
+      #   with:
+      #     reporter: github-check
+      #     # eslint_flags: --quiet "apps/" "libs/"
+
+      - name: Run linters locally
+        if: steps.branch-name.outputs.current_branch == 'dev'
+        run: npm run lint
+
+      - name: Build
+        run: |
+          npm run build
+
+  # resolve_comments:
+  #   needs: [lint-build]
+  #   name: "resolve-comments"
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: Ardiannn08/resolve-outdated-comment@v1.1
+  #       with:
+  #         token: ${{ secrets.GH_TOKEN }}
+  #         filter-user: "your-bot-name"
+  #         mode: "delete"
