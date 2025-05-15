@@ -8,6 +8,7 @@ interface Product {
   material: string;
   info: string;
   price: number;
+  full_price?: number;
   image: string;
 }
 
@@ -30,7 +31,8 @@ const products: Product[] = [
   {
     id: 1,
     name: "'Tarot' Earrings",
-    price: 270,
+    price: 202,
+    full_price: 270,
     image: "goods/item1.jpg",
     info: 'Length: 11.5 cm (4.5 inches), Width: 3.5 cm (1.4 inches)',
     material: 'Polymer clay and stainless steel',
@@ -38,7 +40,8 @@ const products: Product[] = [
   {
     id: 2,
     name: "'Engraved Midnight' Earrings",
-    price: 200,
+    price: 150,
+    full_price: 200,
     image: "goods/item2.jpg",
     info: 'Length: 11 cm (4.3 inches), Width: 3.5 cm (1.4 inches)',
     material: 'Polymer clay and stainless steel',
@@ -46,7 +49,8 @@ const products: Product[] = [
   {
     id: 3,
     name: "Choker with Pendant 'Bloody Beam'",
-    price: 160,
+    price: 116,
+    full_price: 160,
     image: "goods/item3.jpg",
     info: 'Pendant length (including bead dangles): 12.5 cm  Pendant width: 3.5 cm  Ribbon length: 42 cm (adjustable from 37 cm to 42 cm)',
     material: 'Polymer clay, UV resin, velvet ribbon, stainless steel, glass beads',
@@ -54,7 +58,8 @@ const products: Product[] = [
   {
     id: 4,
     name: "Earrings 'Jack's Smile'",
-    price: 70,
+    price: 56,
+    full_price: 70,
     image: "goods/item4.jpg",
     info: 'Length: 5.5 cm Charm size: 2.6 cm × 2.3 cm',
     material: 'Polymer clay and stainless steel',
@@ -62,7 +67,8 @@ const products: Product[] = [
   {
     id: 5,
     name: "Brooch 'Secrets of Forest Fairies' (without frame)",
-    price: 160,
+    price: 128,
+    full_price: 160,
     image: "goods/item5.jpg",
     info: 'Size: 7.5 cm × 9.5 cm',
     material: 'Polymer clay',
@@ -70,7 +76,8 @@ const products: Product[] = [
   {
     id: 6,
     name: "Brooch 'Secrets of Forest Fairies' (with frame)",
-    price: 180,
+    price: 144,
+    full_price: 180,
     image: "goods/item6.jpg",
     info: 'Size with wall frame: 12 cm × 9.5 cm. For wall mounting.',
     material: 'Polymer clay',
@@ -78,7 +85,8 @@ const products: Product[] = [
   {
     id: 7,
     name: "'Witch's Harvest' brooch",
-    price: 60,
+    price: 50,
+    full_price: 60,
     image: "goods/item7.jpg",
     material: 'Polymer clay',
     info: 'Size: 4.5 cm × 4 cm',
@@ -86,7 +94,8 @@ const products: Product[] = [
   {
     id: 8,
     name: "Earrings 'Her Potion'",
-    price: 200,
+    price: 160,
+    full_price: 200,
     image: "goods/item8.jpg",
     material: 'Polymer clay, stainless steel',
     info: 'Length: 7.5 cm with cauldron, 10.5 cm with hat (including dangles)',
@@ -468,7 +477,7 @@ function App() {
                 <div className="mt-6 space-y-4">
                   <div className="flex justify-between text-lg font-semibold">
                     <span>Total:</span>
-                    <span>${cartTotal.toFixed(2)}</span>
+                    <span>€ {cartTotal.toFixed(2)}</span>
                   </div>
                   <button 
                     onClick={() => {
@@ -530,6 +539,11 @@ function App() {
                 <h3 className="text-lg font-semibold">{product.name}</h3>
                 <p className="text-lg">Material: {product.material}</p>
                 <p className="text-sm">{product.info}</p>
+                {product.full_price && (
+                  <div className="flex items-center justify-between">
+                    <span className="line-through text-gray-400 mr-2">€ {product.full_price}</span>
+                  </div>
+                )}
                 <div className="flex items-center justify-between">
                   <p className="text-red-500">€ {product.price}</p>
                 </div>
