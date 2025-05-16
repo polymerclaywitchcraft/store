@@ -6,7 +6,7 @@ interface Product {
   id: number;
   name: string;
   material: string;
-  info: string;
+  size: string;
   price: number;
   full_price?: number;
   image: string;
@@ -34,7 +34,7 @@ const products: Product[] = [
     price: 202,
     full_price: 270,
     image: "goods/item1.jpg",
-    info: 'Length: 11.5 cm (4.5 inches), Width: 3.5 cm (1.4 inches)',
+    size: 'Length: 11.5 cm (4.5 inches), Width: 3.5 cm (1.4 inches)',
     material: 'Polymer clay and stainless steel',
   },
   {
@@ -43,7 +43,7 @@ const products: Product[] = [
     price: 150,
     full_price: 200,
     image: "goods/item2.jpg",
-    info: 'Length: 11 cm (4.3 inches), Width: 3.5 cm (1.4 inches)',
+    size: 'Length: 11 cm (4.3 inches), Width: 3.5 cm (1.4 inches)',
     material: 'Polymer clay and stainless steel',
   },
   {
@@ -52,7 +52,7 @@ const products: Product[] = [
     price: 116,
     full_price: 160,
     image: "goods/item3.jpg",
-    info: 'Pendant length (including bead dangles): 12.5 cm  Pendant width: 3.5 cm  Ribbon length: 42 cm (adjustable from 37 cm to 42 cm)',
+    size: 'Pendant length (including bead dangles): 12.5 cm  Pendant width: 3.5 cm  Ribbon length: 42 cm (adjustable from 37 cm to 42 cm)',
     material: 'Polymer clay, UV resin, velvet ribbon, stainless steel, glass beads',
   },
   {
@@ -61,7 +61,7 @@ const products: Product[] = [
     price: 56,
     full_price: 70,
     image: "goods/item4.jpg",
-    info: 'Length: 5.5 cm Charm size: 2.6 cm × 2.3 cm',
+    size: 'Length: 5.5 cm Charm size: 2.6 cm × 2.3 cm',
     material: 'Polymer clay and stainless steel',
   },
   {
@@ -70,7 +70,7 @@ const products: Product[] = [
     price: 128,
     full_price: 160,
     image: "goods/item5.jpg",
-    info: 'Size: 7.5 cm × 9.5 cm',
+    size: 'Size: 7.5 cm × 9.5 cm',
     material: 'Polymer clay',
   },
   {
@@ -79,7 +79,7 @@ const products: Product[] = [
     price: 144,
     full_price: 180,
     image: "goods/item6.jpg",
-    info: 'Size with wall frame: 12 cm × 9.5 cm. For wall mounting.',
+    size: 'Size with wall frame: 12 cm × 9.5 cm. For wall mounting.',
     material: 'Polymer clay',
   },
   {
@@ -89,7 +89,7 @@ const products: Product[] = [
     full_price: 60,
     image: "goods/item7.jpg",
     material: 'Polymer clay',
-    info: 'Size: 4.5 cm × 4 cm',
+    size: 'Size: 4.5 cm × 4 cm',
   },
   {
     id: 8,
@@ -98,8 +98,35 @@ const products: Product[] = [
     full_price: 200,
     image: "goods/item8.jpg",
     material: 'Polymer clay, stainless steel',
-    info: 'Length: 7.5 cm with cauldron, 10.5 cm with hat (including dangles)',
+    size: 'Length: 7.5 cm with cauldron, 10.5 cm with hat (including dangles)',
   },
+  {
+    id: 9,
+    name: "Poison Petals choker",
+    price: 75,
+    full_price: 100,
+    image: "goods/item9.jpg",
+    material: 'Polymer clay',
+    size: 'Pendant size: 4 cm × 4.3 cm, chain length: 40 cm, adjustable up to 46 cm',
+  },
+  {
+    id: 10,
+    name: "Dangerous Baby choker",
+    price: 43,
+    full_price: 50,
+    image: "goods/item10.jpg",
+    material: 'Polymer clay',
+    size: 'Chain length: 39 cm, adjustable up to 43 cm, length can be extended upon request',
+  },
+  {
+    id: 11,
+    name: "Cript Glints choker",
+    price: 43,
+    full_price: 50,
+    image: "goods/item11.jpg",
+    material: 'Polymer clay',
+    size: 'Dangling chain length: 7 cm. Main chain length: 38.5 cm, adjustable up to 43.5 cm',
+  }
 ];
 
 const categories = [
@@ -538,7 +565,7 @@ function App() {
               <div className="mt-4">
                 <h3 className="text-lg font-semibold">{product.name}</h3>
                 <p className="text-lg">Material: {product.material}</p>
-                <p className="text-sm">{product.info}</p>
+                <p className="text-sm">{product.size}</p>
                 {product.full_price && (
                   <div className="flex items-center justify-between">
                     <span className="line-through text-gray-400 mr-2">€ {product.full_price}</span>
