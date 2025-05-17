@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { Skull, ShoppingCart, Search, Menu, Heart, Clock, Truck, Shield, Star, X, Plus, Minus, ArrowLeft } from 'lucide-react';
 import { toast, ToastContainer } from 'react-toastify';
 
+import ReactGA from "react-ga4";
+ReactGA.initialize('G-MSQENXX4ER');
+ReactGA.send("pageview");
+
 interface Product {
   id: number;
   name: string;
@@ -106,7 +110,7 @@ const products: Product[] = [
     price: 75,
     full_price: 100,
     image: "goods/item9.jpg",
-    material: 'Polymer clay',
+    material: 'Polymer clay, stainless steel',
     size: 'Pendant size: 4 cm × 4.3 cm, chain length: 40 cm, adjustable up to 46 cm',
   },
   {
@@ -115,7 +119,7 @@ const products: Product[] = [
     price: 43,
     full_price: 50,
     image: "goods/item10.jpg",
-    material: 'Polymer clay',
+    material: 'Polymer clay, stainless steel',
     size: 'Chain length: 39 cm, adjustable up to 43 cm, length can be extended upon request',
   },
   {
@@ -124,7 +128,7 @@ const products: Product[] = [
     price: 43,
     full_price: 50,
     image: "goods/item11.jpg",
-    material: 'Polymer clay',
+    material: 'Polymer clay, stainless steel',
     size: 'Dangling chain length: 7 cm. Main chain length: 38.5 cm, adjustable up to 43.5 cm',
   }
 ];
@@ -185,10 +189,22 @@ function App() {
       return [...currentCart, { ...product, quantity: 1 }];
     });
     setIsCartOpen(true);
+    ReactGA.event({
+      category: "Ecommerce",
+      action: "Add to Cart",
+      label: product.name,
+      value: product.price,
+    });
   };
 
   const removeFromCart = (productId: number) => {
     setCart(currentCart => currentCart.filter(item => item.id !== productId));
+    ReactGA.event({
+      category: "Ecommerce",
+      action: "Remove from Cart",
+      label: `Removed ${productId} from cart`,
+      value: 0,
+    });
   };
 
   const updateQuantity = (productId: number, delta: number) => {
@@ -654,7 +670,7 @@ function App() {
             </div>
           </div>
           <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
-            <p>&copy; 2025 Jane / Polymerclay Witchcraft. All rights reserved.</p>
+            <p>&copy; { new Date().getFullYear() } Jane / Polymerclay Witchcraft. All rights reserved.</p>
           </div>
         </div>
       </footer>

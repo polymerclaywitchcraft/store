@@ -84,6 +84,7 @@
     "nestjs-trpc": "^1.6.1",
     "react": "19.0.0",
     "react-dom": "19.0.0",
+    "react-ga4": "^2.1.0",
     "react-router-dom": "6.11.2",
     "react-toastify": "^11.0.3",
     "reflect-metadata": "^0.1.13",
