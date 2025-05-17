@@ -239,7 +239,7 @@ function App() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleCheckout = (e: React.FormEvent) => {
     e.preventDefault();
     setIsCheckingOut(false);
 
@@ -267,6 +267,13 @@ function App() {
     .catch(error => {
       toast.error('There was an error processing your order. Please try again.');
     });
+
+    ReactGA.event({
+      category: "Ecommerce",
+      action: "Checkout",
+      label: "User initiated checkout",
+      value: cartTotal,
+    });
   };
 
   if (isCheckingOut) {
@@ -284,7 +291,7 @@ function App() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
               <h2 className="text-2xl font-bold mb-6">Checkout</h2>
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleCheckout} className="space-y-6">
                 <div>
                   <h3 className="text-lg font-semibold mb-4">Contact Information</h3>
                   <div className="space-y-4">
