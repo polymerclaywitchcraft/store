@@ -3,7 +3,13 @@ import { Skull, ShoppingCart, Search, Menu, Heart, Clock, Truck, Shield, Star, X
 import { toast, ToastContainer } from 'react-toastify';
 
 import ReactGA from "react-ga4";
-ReactGA.initialize('G-MSQENXX4ER');
+const GA_TRACKING_ID = import.meta.env.VITE_GA_TRACKING_ID || 'G-MSQENXX4ER';
+ReactGA.initialize(GA_TRACKING_ID, {
+  gtagOptions: {
+    'js': new Date(),
+    'config': GA_TRACKING_ID,
+  }
+});
 ReactGA.send("pageview");
 
 interface Product {
