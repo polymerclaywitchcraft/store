@@ -41,7 +41,7 @@ const products: Product[] = [
   {
     id: 1,
     name: "'Tarot' Earrings",
-    price: 202,
+    price: 270,
     full_price: 270,
     image: "goods/item1.jpg",
     size: 'Length: 11.5 cm (4.5 inches), Width: 3.5 cm (1.4 inches)',
@@ -50,7 +50,7 @@ const products: Product[] = [
   {
     id: 2,
     name: "'Engraved Midnight' Earrings",
-    price: 150,
+    price: 200,
     full_price: 200,
     image: "goods/item2.jpg",
     size: 'Length: 11 cm (4.3 inches), Width: 3.5 cm (1.4 inches)',
@@ -59,7 +59,7 @@ const products: Product[] = [
   {
     id: 3,
     name: "Choker with Pendant 'Bloody Beam'",
-    price: 116,
+    price: 160,
     full_price: 160,
     image: "goods/item3.jpg",
     size: 'Pendant length (including bead dangles): 12.5 cm  Pendant width: 3.5 cm  Ribbon length: 42 cm (adjustable from 37 cm to 42 cm)',
@@ -68,7 +68,7 @@ const products: Product[] = [
   {
     id: 4,
     name: "Earrings 'Jack's Smile'",
-    price: 56,
+    price: 70,
     full_price: 70,
     image: "goods/item4.jpg",
     size: 'Length: 5.5 cm Charm size: 2.6 cm × 2.3 cm',
@@ -77,7 +77,7 @@ const products: Product[] = [
   {
     id: 5,
     name: "Brooch 'Secrets of Forest Fairies' (without frame)",
-    price: 128,
+    price: 160,
     full_price: 160,
     image: "goods/item5.jpg",
     size: 'Size: 7.5 cm × 9.5 cm',
@@ -86,7 +86,7 @@ const products: Product[] = [
   {
     id: 6,
     name: "Brooch 'Secrets of Forest Fairies' (with frame)",
-    price: 144,
+    price: 180,
     full_price: 180,
     image: "goods/item6.jpg",
     size: 'Size with wall frame: 12 cm × 9.5 cm. For wall mounting.',
@@ -95,7 +95,7 @@ const products: Product[] = [
   {
     id: 7,
     name: "'Witch's Harvest' brooch",
-    price: 50,
+    price: 60,
     full_price: 60,
     image: "goods/item7.jpg",
     material: 'Polymer clay',
@@ -104,7 +104,7 @@ const products: Product[] = [
   {
     id: 8,
     name: "Earrings 'Her Potion'",
-    price: 160,
+    price: 200,
     full_price: 200,
     image: "goods/item8.jpg",
     material: 'Polymer clay, stainless steel',
@@ -113,7 +113,7 @@ const products: Product[] = [
   {
     id: 9,
     name: "Poison Petals choker",
-    price: 75,
+    price: 100,
     full_price: 100,
     image: "goods/item9.jpg",
     material: 'Polymer clay, stainless steel',
@@ -122,7 +122,7 @@ const products: Product[] = [
   {
     id: 10,
     name: "Dangerous Baby choker",
-    price: 43,
+    price: 50,
     full_price: 50,
     image: "goods/item10.jpg",
     material: 'Polymer clay, stainless steel',
@@ -131,7 +131,7 @@ const products: Product[] = [
   {
     id: 11,
     name: "Cript Glints choker",
-    price: 43,
+    price: 50,
     full_price: 50,
     image: "goods/item11.jpg",
     material: 'Polymer clay, stainless steel',
@@ -595,7 +595,7 @@ function App() {
                 <h3 className="text-lg font-semibold">{product.name}</h3>
                 <p className="text-lg">Material: {product.material}</p>
                 <p className="text-sm">{product.size}</p>
-                {product.full_price && (
+                {product.full_price && product.full_price !== product.price && (
                   <div className="flex items-center justify-between">
                     <span className="line-through text-gray-400 mr-2">€ {product.full_price}</span>
                   </div>
