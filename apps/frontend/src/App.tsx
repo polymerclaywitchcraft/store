@@ -41,8 +41,8 @@ const products: Product[] = [
   {
     id: 1,
     name: "'Tarot' Earrings",
-    price: 270,
-    full_price: 270,
+    price: 250,
+    full_price: 250,
     image: "goods/item1.jpg",
     size: 'Length: 11.5 cm (4.5 inches), Width: 3.5 cm (1.4 inches)',
     material: 'Polymer clay and stainless steel',
