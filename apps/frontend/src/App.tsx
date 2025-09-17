@@ -39,6 +39,22 @@ interface CheckoutFormData {
 
 const products: Product[] = [
   {
+    id: 12,
+    name: 'Soft Dreams Earrings',
+    price: 100,
+    image: 'goods/item12.jpg',
+    material: 'Stainless steel, polymer clay',
+    size: 'Length: 12.3 cm, Width: 2.3 cm'
+  },
+  {
+    id: 13,
+    name: 'Dweller of Red Glimmers',
+    price: 100,
+    image: 'goods/item13.jpg',
+    material: 'Polymer clay, metal frame, UV resin',
+    size: 'Height: 6.2 cm, Width with wings: 8.2 cm, Body width: 3.3 cm'
+  },
+  {
     id: 1,
     name: "'Tarot' Earrings",
     price: 250,
