@@ -39,6 +39,14 @@ interface CheckoutFormData {
 
 const products: Product[] = [
   {
+    id: 14,
+    name: 'Necklace “Carol of The Goat”',
+    price: 280,
+    image: 'goods/item14.jpg',
+    material: 'Brass, polymer clay.',
+    size: '43.6 cm, adjustable up to 50 cm.'
+  },
+  {
     id: 12,
     name: 'Soft Dreams Earrings',
     price: 100,
@@ -152,6 +160,22 @@ const products: Product[] = [
     image: "goods/item11.jpg",
     material: 'Polymer clay, stainless steel',
     size: 'Dangling chain length: 7 cm. Main chain length: 38.5 cm, adjustable up to 43.5 cm',
+  },
+  {
+    id: 15,
+    name: 'Brooch “Gloomy Flutter”',
+    price: 70,
+    image: 'goods/item15.jpg',
+    material: 'Polymer clay, metal brooch base.',
+    size: 'Width: 6.3 cm, height: 4.5 cm.'
+  },
+  {
+    id: 16,
+    name: 'Choker “Secret of the Enchanted Prince”',
+    price: 120,
+    image: 'goods/item16.jpg',
+    material: 'Surgical steel, polymer clay, resin.',
+    size: 'Chain length: 40.5 cm, adjustable up to 46 cm. Pendant size: Length 8.8 cm with the charm, 6.7 cm without the charm.',
   }
 ];
 
