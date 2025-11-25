@@ -172,7 +172,7 @@ const products: Product[] = [
   {
     id: 16,
     name: 'Choker “Secret of the Enchanted Prince”',
-    price: 120,
+    price: 60,
     image: 'goods/item16.jpg',
     material: 'Surgical steel, polymer clay, resin.',
     size: 'Chain length: 40.5 cm, adjustable up to 46 cm. Pendant size: Length 8.8 cm with the charm, 6.7 cm without the charm.',
