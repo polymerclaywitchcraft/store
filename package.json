@@ -8,7 +8,7 @@
     "dev:nextjs": "cd apps/frontend-nextjs && npm run dev",
     "nx:build": "nx run-many --target=build --parallel",
     "build:nextjs": "cd apps/frontend-nextjs && npm run build",
-    "start": "node dist/apps/backend/main.js",
+    "start": "cd apps/frontend-nextjs && npm run start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

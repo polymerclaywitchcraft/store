@@ -51,3 +51,6 @@ _versions.ts
 data
 
 vite.config.*.timestamp*
+# Next.js build output
+apps/frontend-nextjs/.next/
+apps/frontend-nextjs/node_modules/

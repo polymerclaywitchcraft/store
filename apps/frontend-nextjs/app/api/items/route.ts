@@ -1,0 +1,121 @@
+import { NextResponse } from 'next/server';
+
+const items = [
+  {
+    id: 14,
+    name: 'Necklace "Carol of The Goat"',
+    price: 280,
+    image: 'goods/item14.jpg',
+    material: 'Brass, polymer clay.',
+    size: '43.6 cm, adjustable up to 50 cm.',
+  },
+  {
+    id: 12,
+    name: 'Soft Dreams Earrings',
+    price: 100,
+    image: 'goods/item12.jpg',
+    material: 'Stainless steel, polymer clay',
+    size: 'Length: 12.3 cm, Width: 2.3 cm',
+  },
+  {
+    id: 13,
+    name: 'Dweller of Red Glimmers',
+    price: 100,
+    image: 'goods/item13.jpg',
+    material: 'Polymer clay, metal frame, UV resin',
+    size: 'Height: 6.2 cm, Width with wings: 8.2 cm, Body width: 3.3 cm',
+  },
+  {
+    id: 1,
+    name: "'Tarot' Earrings",
+    price: 250,
+    image: 'goods/item1.jpg',
+    size: 'Length: 11.5 cm (4.5 inches), Width: 3.5 cm (1.4 inches)',
+    material: 'Polymer clay and stainless steel',
+  },
+  {
+    id: 2,
+    name: "'Engraved Midnight' Earrings",
+    price: 150,
+    image: 'goods/item2.jpg',
+    size: 'Length: 11 cm (4.3 inches), Width: 3.5 cm (1.4 inches)',
+    material: 'Polymer clay and stainless steel',
+  },
+  {
+    id: 3,
+    name: "Choker with Pendant 'Bloody Beam'",
+    price: 116,
+    image: 'goods/item3.jpg',
+    size: 'Pendant length (including bead dangles): 12.5 cm',
+    material:
+      'Polymer clay, UV resin, velvet ribbon, stainless steel, glass beads',
+  },
+  {
+    id: 4,
+    name: "Earrings 'Jack's Smile'",
+    price: 56,
+    image: 'goods/item4.jpg',
+    size: 'Length: 5.5 cm Charm size: 2.6 cm × 2.3 cm',
+    material: 'Polymer clay and stainless steel',
+  },
+  {
+    id: 5,
+    name: "Brooch 'Secrets of Forest Fairies' (without frame)",
+    price: 128,
+    image: 'goods/item5.jpg',
+    size: 'Size: 7.5 cm × 9.5 cm',
+    material: 'Polymer clay',
+  },
+  {
+    id: 6,
+    name: "Brooch 'Secrets of Forest Fairies' (with frame)",
+    price: 144,
+    image: 'goods/item6.jpg',
+    size: 'Size with wall frame: 12 cm × 9.5 cm.',
+    material: 'Polymer clay',
+  },
+  {
+    id: 7,
+    name: "'Witch's Harvest' brooch",
+    price: 50,
+    image: 'goods/item7.jpg',
+    material: 'Polymer clay',
+    size: 'Size: 4.5 cm × 4 cm',
+  },
+  {
+    id: 8,
+    name: "Earrings 'Her Potion'",
+    price: 200,
+    image: 'goods/item8.jpg',
+    material: 'Polymer clay, stainless steel',
+    size: 'Length: 7.5 cm with cauldron, 10.5 cm with hat',
+  },
+  {
+    id: 9,
+    name: 'Poison Petals choker',
+    price: 75,
+    image: 'goods/item9.jpg',
+    material: 'Polymer clay, stainless steel',
+    size: 'Pendant size: 4 cm × 4.3 cm, chain length: 40 cm',
+  },
+  {
+    id: 15,
+    name: 'Brooch "Gloomy Flutter"',
+    price: 70,
+    image: 'goods/item15.jpg',
+    material: 'Polymer clay, metal brooch base.',
+    size: 'Width: 6.3 cm, height: 4.5 cm.',
+  },
+  {
+    id: 16,
+    name: 'Choker "Secret of the Enchanted Prince"',
+    price: 60,
+    image: 'goods/item16.jpg',
+    material: 'Surgical steel, polymer clay, resin.',
+    size: 'Chain length: 40.5 cm, adjustable up to 46 cm.',
+  },
+];
+
+export async function GET() {
+  return NextResponse.json(items);
+}
