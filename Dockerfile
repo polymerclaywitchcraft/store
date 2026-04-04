@@ -12,13 +12,11 @@ RUN mkdir /project
 WORKDIR /project
 
 # Install dependencies using a cache layer
-COPY ./apps/frontend-nextjs/package.json /project/package.json
-COPY ./apps/frontend-nextjs/package-lock.json /project/package-lock.json
-
+COPY package.json package-lock.json ./
 RUN npm ci
 
 # Copy Next.js application source
-COPY ./apps/frontend-nextjs/ /project/
+COPY . .
 
 # Build Next.js app
 RUN npm run build
@@ -32,4 +30,3 @@ COPY ./docker-entrypoint.sh /project/docker-entrypoint.sh
 ENTRYPOINT [ "./docker-entrypoint.sh" ]
 
 CMD ["doppler", "run", "--", "npm", "start"]
-

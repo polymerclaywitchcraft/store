@@ -1,9 +1,0 @@
-node_modules
-.serverless
-coverage/*
-server/__tests__/*
-.vscode
-*.config.js
-.webpack
-**/*.js
-.nx/
