@@ -39,4 +39,6 @@ Thumbs.db
 # Environment Variables
 .env
 
+# Extra folders
 data
+build
